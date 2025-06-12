@@ -320,6 +320,338 @@ function authenticateSpotify() {
 
 
 <style>
+    .game-container {
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 600px;
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(29, 185, 84, 0.2);
+        color: white;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        font-weight: 800;
+        margin-bottom: 30px;
+        background: linear-gradient(45deg, #1db954, #1ed760);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -1px;
+    }
+
+    .setup-section {
+        margin-bottom: 30px;
+    }
+
+    .auth-section {
+        background: rgba(29, 185, 84, 0.15);
+        border: 2px solid #1db954;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
 
 
+    .auth-section h3 {
+      color: #1ed760;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+  
+    .auth-section p {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+  
+    .auth-button {
+      background: linear-gradient(135deg, #1db954, #1ed760);
+      color: #ffffff;
+      border: none;
+      padding: 15px 35px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      letter-spacing: 0.5px;
+    }
+  
+    .auth-button:hover {
+      background: linear-gradient(135deg, #1ed760, #21e065);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(29, 185, 84, 0.4);
+    }
+  
+    .game-mode-selection h3 {
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+  
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .game-mode {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(29, 185, 84, 0.6);
+      color: #ffffff;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      margin: 0 8px;
+    }
+  
+    .game-mode.active {
+      background: linear-gradient(135deg, #1db954, #1ed760);
+      border-color: #1ed760;
+      box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+    }
+  
+    .game-mode:hover {
+      background: rgba(29, 185, 84, 0.2);
+      transform: translateY(-2px);
+    }
+  
+    .score {
+      font-size: 1.3em;
+      margin: 20px 0;
+      color: #1ed760;
+      font-weight: 700;
+      background: rgba(29, 185, 84, 0.1);
+      padding: 12px 20px;
+      border-radius: 25px;
+      border: 1px solid rgba(29, 185, 84, 0.3);
+    }
+  
+    .song-info {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 25px;
+      margin: 25px 0;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+  
+    .album-cover {
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+      margin: 0 auto 15px;
+      object-fit: cover;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(29, 185, 84, 0.3);
+    }
+  
+    .progress {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      margin: 15px 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #1db954, #1ed760);
+      transition: width 0.1s linear;
+      border-radius: 3px;
+    }
+  
+    .play-button {
+      background: linear-gradient(135deg, #1db954, #1ed760);
+      color: #ffffff;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      letter-spacing: 0.5px;
+    }
+  
+    .play-button:hover {
+      background: linear-gradient(135deg, #1ed760, #21e065);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 12px 25px rgba(29, 185, 84, 0.4);
+    }
+  
+    .play-button:disabled {
+      background: linear-gradient(135deg, #666666, #777777);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  
+    .skip-button {
+      background: linear-gradient(135deg, #ff6b35, #ff8c42);
+      color: #ffffff;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  
+    .skip-button:hover {
+      background: linear-gradient(135deg, #ff8c42, #ffa366);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+    }
+  
+    .guess-section {
+      margin: 25px 0;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  
+    .guess-input {
+      background: rgba(25, 20, 20, 0.6);
+      border: 2px solid rgba(29, 185, 84, 0.6);
+      color: #ffffff;
+      padding: 15px 20px;
+      border-radius: 12px;
+      font-size: 16px;
+      width: 100%;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+  
+    .guess-input:focus {
+      outline: none;
+      border-color: #1ed760;
+      box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2);
+      background: rgba(25, 20, 20, 0.8);
+    }
+  
+    .guess-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  
+    .guess-button {
+      background: linear-gradient(135deg, #1db954, #1ed760);
+      color: #ffffff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 8px;
+      transition: all 0.3s ease;
+    }
+  
+    .guess-button:hover {
+      background: linear-gradient(135deg, #1ed760, #21e065);
+      transform: translateY(-1px);
+    }
+  
+    .next-button {
+      background: linear-gradient(135deg, #ff6b35, #ff8c42);
+      color: #ffffff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 8px;
+      transition: all 0.3s ease;
+    }
+  
+    .next-button:hover {
+      background: linear-gradient(135deg, #ff8c42, #ffa366);
+      transform: translateY(-1px);
+    }
+  
+    .result {
+      margin: 20px 0;
+      padding: 18px 25px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.3px;
+    }
+  
+    .result.correct {
+      background: linear-gradient(135deg, rgba(29, 185, 84, 0.2), rgba(30, 215, 96, 0.15));
+      border: 2px solid #1db954;
+      color: #1ed760;
+    }
+  
+    .result.incorrect {
+      background: linear-gradient(135deg, rgba(255, 0, 0, 0.15), rgba(255, 69, 69, 0.1));
+      border: 2px solid #ff0000;
+      color: #ff6b6b;
+    }
+  
+    .loading {
+      color: #1ed760;
+      font-size: 18px;
+      margin: 25px 0;
+      font-weight: 600;
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+  
+    @keyframes pulse {
+      0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.6; 
+        transform: scale(1.02);
+      }
+    }
+  
+    @media (max-width: 600px) {
+      .game-container {
+        padding: 25px 20px;
+        margin: 20px;
+      }
+      
+      h1 {
+        font-size: 2em;
+        margin-bottom: 25px;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
+  
+      .game-mode {
+        margin: 5px 0;
+        width: 200px;
+      }
+  
+      .auth-button, .play-button, .skip-button {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
 </style>

@@ -6,7 +6,7 @@
     <title>Spotify Quiz</title>
     <meta name="description" content="Test your Spotify knowledge with this fun quiz!">
     <link rel="preconnct" href="https://fonts.googleapis.com">
-    <link rel="preconnct" href="https://fonts.gstatic.com">
+    <link rel="preconnct" href="https://fonts.gstatic.com" >
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" >
 </svelte:head>
 <main>
