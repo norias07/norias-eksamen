@@ -15,6 +15,7 @@
 <style>
     :global(html) {
         font-family: 'inter', 'circular', 'helvetica neue', 'arial', 'sans-serif';
+        background-color: #121212;
     }
     :global(body) {
     margin: 0;
